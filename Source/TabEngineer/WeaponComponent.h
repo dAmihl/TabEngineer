@@ -33,5 +33,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	virtual void Shoot(AEnemy* Target);
+
+	virtual void TurnTowardsActor(AEnemy* Actor);
 		
 };

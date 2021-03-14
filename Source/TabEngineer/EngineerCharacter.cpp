@@ -65,7 +65,11 @@ void AEngineerCharacter::BeginPlay()
 void AEngineerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
+
+	if (CurrentTarget.IsValid())
+	{
+		Weapon->TurnTowardsActor(CurrentTarget.Get());
+	}
 }
 
 // Called to bind functionality to input

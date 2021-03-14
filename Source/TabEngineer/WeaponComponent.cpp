@@ -4,6 +4,7 @@
 #include "WeaponComponent.h"
 
 #include "BulletTrailSpline.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values for this component's properties
 UWeaponComponent::UWeaponComponent()
@@ -44,5 +45,11 @@ void UWeaponComponent::Shoot(AEnemy* Target)
 	FVector SplineEnd = FVector(TargetLocation.X, TargetLocation.Y, SplineStart.Z);
 	// hand_rSocket
 	trail->SetStartEnd( SplineStart, SplineEnd);
+}
+
+void UWeaponComponent::TurnTowardsActor(AEnemy* Actor)
+{
+	FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(GetOwner()->GetActorLocation(), Actor->GetActorLocation());
+	SetWorldRotation(LookAtRotation);
 }
 
