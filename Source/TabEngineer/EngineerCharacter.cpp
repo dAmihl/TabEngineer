@@ -179,7 +179,7 @@ void AEngineerCharacter::BuildTurret()
 	{
 		FActorSpawnParameters SpawnParameters;
 		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		FVector SpawnLocation = PointOnGround + FVector(0.f, 0.f, 90.f);
+		FVector SpawnLocation = PointOnGround;
 		FRotator SpawnRotation = FRotator::ZeroRotator;
 		GetWorld()->SpawnActor(TurretClass, &SpawnLocation, &FRotator::ZeroRotator, SpawnParameters);
 	}

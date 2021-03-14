@@ -39,11 +39,15 @@ void ATabEngineerGameMode::StartRound()
 void ATabEngineerGameMode::SpawnCore()
 {
 	
-	FVector SpawnLocation = FVector::ZeroVector;
+	FVector SpawnLocation = FVector::ZeroVector + FVector(0.f, 0.f, 90);
 	FRotator SpawnRotator = FRotator::ZeroRotator;
 	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 	AActor* Core = GetWorld()->SpawnActor(CoreBP, &SpawnLocation, &SpawnRotator, SpawnParameters);
-	Core->SetOwner(this);
+	if (Core)
+	{
+		Core->SetOwner(this);	
+	}
 
 	StartRound();
 }
