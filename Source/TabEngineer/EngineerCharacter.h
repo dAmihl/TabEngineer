@@ -31,7 +31,8 @@ class TABENGINEER_API AEngineerCharacter : public ACharacter
 
 	FTimerHandle AutoAttackTimerHandle;
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat", meta=(AllowPrivateAccess="true"))
+	TSubclassOf<class ATurret> TurretClass;
 	
 public:
 	// Sets default values for this character's properties
@@ -51,7 +52,6 @@ public:
 	bool ShootPressed;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Combat)
 	float AttackRange;
-	
 	
 
 protected:
@@ -86,5 +86,11 @@ public:
 	void StartAttack();
 	void StopAttack();
 	
-	
+	void BuildTurret();
+
+	void MainAction();
+
+private:
+
+	bool RayCastFromCamera(FVector& HitLocation) const;
 };

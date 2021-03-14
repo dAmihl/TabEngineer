@@ -2,7 +2,7 @@
 
 
 #include "EngineerCharacter.h"
-
+#include "DrawDebugHelpers.h"
 #include "Enemy.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -11,6 +11,7 @@
 #include "Components/SphereComponent.h"
 #include "EnvironmentQuery/EnvQueryTypes.h"
 #include "WeaponComponent.h"
+#include "Turret.h"
 
 // Sets default values
 AEngineerCharacter::AEngineerCharacter()
@@ -84,6 +85,7 @@ void AEngineerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 	PlayerInputComponent->BindAction("Target", IE_Pressed, this, &AEngineerCharacter::Target);
 	PlayerInputComponent->BindAction("ClearTarget", IE_Pressed, this, &AEngineerCharacter::ClearTarget);
+	PlayerInputComponent->BindAction("MainAction", IE_Pressed, this, &AEngineerCharacter::MainAction);
 }
 
 void AEngineerCharacter::MoveForward(float Value)
@@ -167,6 +169,51 @@ void AEngineerCharacter::ClearTarget()
 void AEngineerCharacter::StopAttack()
 {
 	GetWorldTimerManager().ClearTimer(AutoAttackTimerHandle);
+}
+
+void AEngineerCharacter::BuildTurret()
+{
+	FVector PointOnGround;
+	bool IsValidHit = RayCastFromCamera(PointOnGround);
+	if (IsValidHit)
+	{
+		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		FVector SpawnLocation = PointOnGround + FVector(0.f, 0.f, 90.f);
+		FRotator SpawnRotation = FRotator::ZeroRotator;
+		GetWorld()->SpawnActor(TurretClass, &SpawnLocation, &FRotator::ZeroRotator, SpawnParameters);
+	}
+}
+
+void AEngineerCharacter::MainAction()
+{
+	BuildTurret();
+}
+
+bool AEngineerCharacter::RayCastFromCamera(FVector& HitLocation) const
+{
+	FHitResult OutHit;
+	FCollisionQueryParams CollisionParams;
+	CollisionParams.AddIgnoredActor(this->GetOwner());
+
+	
+	FVector ForwardVector = GetControlRotation().Vector();
+	FVector StartPoint = FollowCamera->GetComponentLocation();
+	StartPoint += ForwardVector * SpringCameraArm->TargetArmLength;
+	
+	float RayDistance = 500.f;
+	FVector EndPoint = StartPoint + ForwardVector * RayDistance;
+	
+
+	DrawDebugLine(GetWorld(), StartPoint, EndPoint, FColor::Green, false, 1,0,5);
+
+	bool IsHit = GetWorld()->LineTraceSingleByChannel(OutHit, StartPoint, EndPoint, ECC_Visibility, CollisionParams);
+
+	if (IsHit)
+	{
+		HitLocation = OutHit.Location;
+	}
+	return IsHit;
 }
 
 void AEngineerCharacter::Attack()
