@@ -52,8 +52,7 @@ bool AEnemy::IsDead() const
 	return HealthComponent->IsDead();
 }
 
-
-void AEnemy::Death() const
+void AEnemy::Death()
 {
 	GetMesh()->SetSimulatePhysics(true);
 	GetMesh()->SetCollisionProfileName(FName("Ragdoll"));

@@ -3,18 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include "IDamagable.h"
 #include "GameFramework/Character.h"
 #include "Enemy.generated.h"
 
 UCLASS()
-class TABENGINEER_API AEnemy : public ACharacter
+class TABENGINEER_API AEnemy : public ACharacter, public IDamagable
 {
 	GENERATED_BODY()
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Health", meta=(AllowPrivateAccess="true"))
 	class UHealthComponent* HealthComponent;
 
-	void Death() const;
+	
 
 public:
 	// Sets default values for this character's properties
@@ -31,7 +33,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void Damage(const float Amount);
+	virtual void Damage(const float Amount) override;
 
-	bool IsDead() const;
+	virtual bool IsDead() const override;
+
+	virtual void Death() override;
 };
