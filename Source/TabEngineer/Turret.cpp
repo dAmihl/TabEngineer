@@ -75,7 +75,8 @@ void ATurret::Attack()
 	if (CurrentTarget != nullptr)
 	{
 
-		if (GetDistanceTo(CurrentTarget.Get()) > AttackRange)
+		if (GetDistanceTo(CurrentTarget.Get()) > AttackRange
+			|| CurrentTarget->IsDead())
 		{
 			StopAttack();
 			ClearTarget();

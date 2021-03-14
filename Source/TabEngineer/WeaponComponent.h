@@ -32,6 +32,6 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	virtual void Shoot(const AEnemy* Target);
+	virtual void Shoot(AEnemy* Target);
 		
 };

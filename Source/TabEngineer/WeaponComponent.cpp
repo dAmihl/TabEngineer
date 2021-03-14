@@ -34,7 +34,7 @@ void UWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 }
 
-void UWeaponComponent::Shoot(const AEnemy* Target)
+void UWeaponComponent::Shoot(AEnemy* Target)
 {
 	Target->Damage(10);
 	

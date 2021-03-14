@@ -2,12 +2,17 @@
 
 
 #include "Enemy.h"
+#include "HealthComponent.h"
+#include "Components/CapsuleComponent.h"
+
 
 // Sets default values
 AEnemy::AEnemy()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
 }
 
 // Called when the game starts or when spawned
@@ -31,8 +36,27 @@ void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void AEnemy::Damage(const float Amount) const
+void AEnemy::Damage(const float Amount)
 {
-	UE_LOG(LogTemp, Warning, TEXT("I HAVE RECEIVED DAMAGE! %d"), Amount);
+	HealthComponent->GiveDamage(Amount);
+	UE_LOG(LogTemp, Display, TEXT("I received %f damage"), Amount);
+	if (IsDead())
+	{
+		UE_LOG(LogTemp, Display, TEXT("I Am Dead"));
+		Death();
+	}
 }
 
+bool AEnemy::IsDead() const
+{
+	return HealthComponent->IsDead();
+}
+
+
+void AEnemy::Death() const
+{
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->SetCollisionProfileName(FName("Ragdoll"));
+	GetMesh()->WakeAllRigidBodies();
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}

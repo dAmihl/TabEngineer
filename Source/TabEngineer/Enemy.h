@@ -11,6 +11,11 @@ class TABENGINEER_API AEnemy : public ACharacter
 {
 	GENERATED_BODY()
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Health", meta=(AllowPrivateAccess="true"))
+	class UHealthComponent* HealthComponent;
+
+	void Death() const;
+
 public:
 	// Sets default values for this character's properties
 	AEnemy();
@@ -26,5 +31,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void Damage(const float Amount) const;	
+	void Damage(const float Amount);
+
+	bool IsDead() const;
 };
