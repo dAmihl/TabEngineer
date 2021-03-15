@@ -13,6 +13,5 @@ ATurretAiController::ATurretAiController()
 void ATurretAiController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
-
 	RunBehaviorTree(BehaviorTree);
 }

@@ -25,6 +25,9 @@ class ATabEngineerGameMode : public AGameModeBase
 	UPROPERTY()
 	TArray<AActor*> EnemySpawnPoints;
 
+	UPROPERTY()
+	ABaseCore* MainCore;
+
 public:
 	ATabEngineerGameMode();
 

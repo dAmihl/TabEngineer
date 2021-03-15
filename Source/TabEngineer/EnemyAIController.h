@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "BaseCore.h"
+
 #include "EnemyAIController.generated.h"
 
 /**
@@ -17,8 +19,14 @@ class TABENGINEER_API AEnemyAIController : public AAIController
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
 	class UBehaviorTree* BehaviorTree;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess="true"))
+	ABaseCore* CoreTarget;
+
+	
 public:
 	AEnemyAIController();
 
 	virtual void OnPossess(APawn* InPawn) override;
+	void SetCoreTarget(ABaseCore* Target);
+	void UnsetCoreTarget();
 };

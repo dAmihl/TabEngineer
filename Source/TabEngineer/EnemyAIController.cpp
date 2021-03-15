@@ -16,3 +16,13 @@ void AEnemyAIController::OnPossess(APawn* InPawn)
 
 	RunBehaviorTree(BehaviorTree);
 }
+
+void AEnemyAIController::SetCoreTarget(ABaseCore* Target)
+{
+	CoreTarget = Target;
+}
+
+void AEnemyAIController::UnsetCoreTarget()
+{
+	CoreTarget = nullptr;
+}

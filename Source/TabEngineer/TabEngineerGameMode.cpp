@@ -2,6 +2,8 @@
 
 #include "TabEngineerGameMode.h"
 
+
+#include "EnemyAIController.h"
 #include "Kismet/GameplayStatics.h"
 
 ATabEngineerGameMode::ATabEngineerGameMode()
@@ -24,8 +26,12 @@ void ATabEngineerGameMode::SpawnEnemy()
 	FVector SpawnLocation = SpawnActor->GetActorLocation();
 	FRotator SpawnRotator = SpawnActor->GetActorRotation();
 	FActorSpawnParameters SpawnParameters;
-	GetWorld()->SpawnActor(EnemyBP, &SpawnLocation, &SpawnRotator, SpawnParameters);
-	
+	AEnemy* NewEnemy = GetWorld()->SpawnActor<AEnemy>(EnemyBP, SpawnLocation, SpawnRotator, SpawnParameters);
+	AEnemyAIController* Controller = NewEnemy->GetController<AEnemyAIController>();
+	if (Controller)
+	{
+		Controller->SetCoreTarget(MainCore);
+	}
 }
 
 void ATabEngineerGameMode::StartRound()
@@ -43,10 +49,10 @@ void ATabEngineerGameMode::SpawnCore()
 	FRotator SpawnRotator = FRotator::ZeroRotator;
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-	AActor* Core = GetWorld()->SpawnActor(CoreBP, &SpawnLocation, &SpawnRotator, SpawnParameters);
-	if (Core)
+	MainCore = GetWorld()->SpawnActor<ABaseCore>(CoreBP, SpawnLocation, SpawnRotator, SpawnParameters);
+	if (MainCore)
 	{
-		Core->SetOwner(this);	
+		MainCore->SetOwner(this);	
 	}
 
 	StartRound();
