@@ -33,6 +33,9 @@ class TABENGINEER_API AEngineerCharacter : public ACharacter
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat", meta=(AllowPrivateAccess="true"))
 	TSubclassOf<class ATurret> TurretClass;
+
+	UPROPERTY(EditAnywhere)
+	float CameraDistance;
 	
 public:
 	// Sets default values for this character's properties

@@ -20,6 +20,7 @@ AEngineerCharacter::AEngineerCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	AttackRange = 500.f;
+	CameraDistance = 500.f;
 
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
@@ -40,7 +41,7 @@ AEngineerCharacter::AEngineerCharacter()
 
 	SpringCameraArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringCameraArm"));
 	SpringCameraArm->SetupAttachment(RootComponent);
-	SpringCameraArm->TargetArmLength = 300.f;
+	SpringCameraArm->TargetArmLength = CameraDistance;
 	SpringCameraArm->bUsePawnControlRotation = true;
 	
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));

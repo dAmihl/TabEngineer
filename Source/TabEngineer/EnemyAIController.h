@@ -4,22 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "TurretAiController.generated.h"
+#include "EnemyAIController.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TABENGINEER_API ATurretAiController : public AAIController
+class TABENGINEER_API AEnemyAIController : public AAIController
 {
 	GENERATED_BODY()
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
 	class UBehaviorTree* BehaviorTree;
-	
-public:
 
-	ATurretAiController();
+public:
+	AEnemyAIController();
 
 	virtual void OnPossess(APawn* InPawn) override;
 };
